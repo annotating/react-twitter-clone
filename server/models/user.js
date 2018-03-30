@@ -18,7 +18,11 @@ const userSchema = new mongoose.Schema({
     },
     profileImageUrl: {
         type: String
-    }
+    },
+    messages: [{
+        type: mongoose.Schema.Types.ObjectId,
+        ref: "Message"
+    }]
 });
 
 // hash password before save
@@ -36,11 +40,13 @@ userSchema.pre('save', async function(next) {
     }     
 });
 
-userSchema.method.comparePassword = async function(maybePassword, next) {
+userSchema.methods.comparePassword = async function(maybePassword, next) {
     try {
+        console.log(maybePassword, this.password);
         let matched = await bcrypt.compare(maybePassword, this.password);
         return matched;
     } catch(err) {
+        console.log('error', err);
         return next(err);
     }
 }
