@@ -2,6 +2,11 @@ body {
   background-color: #e6ecf0;
 }
 
+a {
+  text-decoration: underline;
+  cursor: pointer;
+}
+
 /* Nav */
 .navbar {
   margin-bottom: 1rem;
@@ -37,10 +42,7 @@ ul.nav.navbar-nav li {
 
 .home-hero {
   width: 100vw;
-  height: 100vh;
-  position: absolute;
-  top: 0;
-  left: 0;
+  height: 85vh;
   display: flex;
   flex-direction: column;
   align-items: center;
@@ -51,3 +53,43 @@ ul.nav.navbar-nav li {
 .home-hero h1 {
   text-shadow: 0 3px 0 lightgrey;
 }
+
+.user-aside {
+  padding: 0;
+  margin-right: 20px;
+  text-align: center;
+}
+
+.user-aside img {
+  height: 100%;
+  width: 100%;
+  max-width: 200px;
+  max-height: 200px;
+  border: 2px solid white;
+}
+
+#messages .list-group-item {
+  display: flex;
+  align-items: center;
+  padding: 7px 20px 12px;
+}
+
+#messages:not(.no-hover) .list-group-item:hover {
+  background-color: #e6ecf0
+}
+
+.timeline-image {
+  border-radius: 50px;
+  height: 75px;
+  width: 75px;
+  margin: 5px 15px 5px 5px;
+}
+
+.btn:hover {
+  cursor: pointer;
+}
+
+a.btn.btn-danger, a.btn.btn-danger:hover {
+  color:white
+}
+

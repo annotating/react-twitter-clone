@@ -1,5 +1,6 @@
 import React from 'react';
 import {Link} from 'react-router-dom';
+import MessageTimeline from './MessageTimeline';
 
 const HomePage = ({currentUser}) => {
     if (!currentUser.isAuthenticated) {
@@ -13,8 +14,11 @@ const HomePage = ({currentUser}) => {
         );
     }
     return (
-        <div>
-            Welcome back!
+        <div className="container">
+            <MessageTimeline
+                profileImageUrl={currentUser.profileImageUrl}
+                username={currentUser.user.username}
+            />
         </div>
     )
 };
