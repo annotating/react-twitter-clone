@@ -46,7 +46,6 @@ userSchema.methods.comparePassword = async function(maybePassword, next) {
         let matched = await bcrypt.compare(maybePassword, this.password);
         return matched;
     } catch(err) {
-        console.log('error', err);
         return next(err);
     }
 }

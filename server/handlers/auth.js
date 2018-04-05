@@ -38,8 +38,9 @@ exports.signup = async function(req, res, next) {
         });
     } catch(err) {
         // mongoose code for validation fail
-        if (err.code === 1100) {
-            err.message = "Username or email already taken"
+        console.log(err);
+        if (err.code === 11000) {
+            err.message = "Username or email is already taken"
         }
         return next({
             status: 400,
