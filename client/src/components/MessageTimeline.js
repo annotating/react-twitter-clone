@@ -4,14 +4,16 @@ import UserAside from './UserAside';
 
 const MessageTimeline = ({profileImageUrl, username}) => {
     return (
-        <div className="row">
-            <div className="user-aside col-sm-2">
+        <div className="row justify-content-center">
+            <div className="user-aside col-xs-4">
                 <UserAside
                     profileImageUrl={profileImageUrl}
                     username={username}
                 />
             </div>
-            <MessageList/>
+            <div className="col">
+                <MessageList/>
+            </div>
         </div>
     )
 };
