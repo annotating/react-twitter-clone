@@ -34,11 +34,10 @@ describe('async message actions', () => {
     });
 
     afterEach(() => {
-        httpMock.restore();
         httpMock.reset();
     });
 
-    test('creates load message action when fetch complete', () => {
+    test('creates load message action when request complete', () => {
         httpMock.onGet('/api/messages').reply(200, 
             [{_id:7}, {_id:11}, {_id:15}]
         );
@@ -48,6 +47,27 @@ describe('async message actions', () => {
             messages: [{_id:7}, {_id:11}, {_id:15}]
         };
         store.dispatch(messageActions.fetchMessages()).then(() => {
+            expect(store.getActions()[0]).toEqual(expected);
+        });
+    })
+
+    test('creates remove message action when request complete', () => {
+        let userId = 1;
+        let messageId = 17;
+        
+        httpMock.onDelete(`/api/users/${userId}/messages/${messageId}`).reply(200, 
+            {
+                id: 17,
+                text: 'test'
+            }
+        );
+       
+        let expected = {
+            type: actionTypes.REMOVE_MESSAGE,
+            id: 17
+        };
+
+        store.dispatch(messageActions.removeMessage(userId, messageId)).then(() => {
             expect(store.getActions()[0]).toEqual(expected);
         });
     });

@@ -2,7 +2,6 @@ import {axiosCall, setTokenHeader} from '../../services/api.js';
 import {SET_CURRENT_USER} from '../actionTypes';
 import {addError, removeError} from './errors';
 
-
 export function setCurrentUser(user) {
     return {
         type: SET_CURRENT_USER,
@@ -32,7 +31,7 @@ export function authUser(path, userData) {
                     setAuthorizationToken(token);
                     dispatch(removeError());
                     dispatch(setCurrentUser(user));
-                    resolve();
+                    resolve(); 
                 }
             ).catch(err => {
                 dispatch(addError(err.message));
