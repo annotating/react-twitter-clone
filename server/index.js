@@ -6,6 +6,7 @@ const cors = require("cors");
 const errorHandler = require("./handlers/error");
 const authRoutes = require("./routes/auth");
 const messagesRoutes = require("./routes/messages");
+const userRoutes = require("./routes/user");
 const { validateLogin, validateUser } = require("./middleware/auth");
 const db = require("./models");
 
@@ -16,6 +17,7 @@ app.use(bodyParser.json());
 
 app.use("/api/auth", authRoutes);
 app.use("/api/users/:id/messages", validateLogin, validateUser, messagesRoutes);
+app.use("/api/users/:id", validateLogin, validateUser, userRoutes);
 app.get("/api/messages", validateLogin, async function(req, res, next) {
     try {
         let messages = await db.Message.find()

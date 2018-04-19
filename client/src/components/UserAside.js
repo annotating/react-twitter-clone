@@ -2,7 +2,7 @@ import React from 'react';
 import {Link} from 'react-router-dom';
 import DefaultProfileImg from '../images/doge-bread.jpg';
 
-const UserAside =  ({profileImageUrl, username}) => {
+const UserAside =  ({id, profileImageUrl, username}) => {
     return (
     <aside className="panel panel-default">
         <img 
@@ -11,7 +11,7 @@ const UserAside =  ({profileImageUrl, username}) => {
             alt={username}
         />
         <p>
-            <Link to='/'>@{username} &nbsp;</Link>
+            <Link to={`/users/${id}/edit`}>@{username} &nbsp;</Link>
         </p>
     </aside>
     )

@@ -1,6 +1,8 @@
 const mongoose = require("mongoose");
 const bcrypt = require("bcrypt");
 
+const SALT = 10;
+
 const userSchema = new mongoose.Schema({
     username: {
         type: String,
@@ -25,6 +27,19 @@ const userSchema = new mongoose.Schema({
     }]
 });
 
+const hash = pw => {
+    return bcrypt.hash(pw, 10);
+}
+
+// additional hook is needed  
+// apparently calling update doesn't the trigger pre-save hook
+userSchema.pre('findOneAndUpdate', async function(next) {
+    let hashed = await hash(this._update.password, SALT);
+    this._update.password = hashed;
+    console.log('update', this._update.password);
+    return next();
+});
+
 // hash password before save
 userSchema.pre('save', async function(next) {
     try {
@@ -32,7 +47,7 @@ userSchema.pre('save', async function(next) {
             return next;
         }
         // bcrypt.hash is async
-        let hashed = await bcrypt.hash(this.password, 10);
+        let hashed = await hash(this.password, SALT);
         this.password = hashed;
         return next();
     } catch(err) {
@@ -42,7 +57,6 @@ userSchema.pre('save', async function(next) {
 
 userSchema.methods.comparePassword = async function(maybePassword, next) {
     try {
-        console.log(maybePassword, this.password);
         let matched = await bcrypt.compare(maybePassword, this.password);
         return matched;
     } catch(err) {

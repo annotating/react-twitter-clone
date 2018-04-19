@@ -12,7 +12,7 @@ class MessageForm extends Component {
 
     handleSubmit = e => {
         e.preventDefault();
-        this.props.addNewMessage(this.state.message);
+        this.props.addNewMessage(this.state.message)
         this.setState({message: ""});
         this.props.history.push('/');
     }
@@ -26,6 +26,7 @@ class MessageForm extends Component {
     render() {
         return (
             <form onSubmit={this.handleSubmit}>
+                <h2 className="text-center">New Message</h2>
                 {this.props.errors.message && (
                     <div className="alert alert-danger">
                         {this.props.errors}
@@ -40,7 +41,7 @@ class MessageForm extends Component {
                 />
                 <button 
                     type="submit"
-                    className="btn btn-success pull-right"
+                    className="btn btn-success pull-right mt-4" 
                 >
                     Submit
                 </button>
