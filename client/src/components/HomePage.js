@@ -3,6 +3,13 @@ import {Link} from 'react-router-dom';
 import MessageTimeline from './MessageTimeline';
 
 const HomePage = ({currentUser}) => {
+    if (localStorage.authenticated && !currentUser.isAuthenticated) {
+        return (
+            <div>
+                Loading...
+            </div>
+        );
+    }
     if (!currentUser.isAuthenticated) {
         return (
             <div className="home-hero">

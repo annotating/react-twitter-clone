@@ -1,5 +1,5 @@
 const mongoose = require("mongoose");
-mongoose.set("debug", true);
+mongoose.set("debug", false);
 mongoose.Promise = Promise;
 mongoose.connect('mongodb://localhost/twitter-clone', {
     keepAlive: true

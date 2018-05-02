@@ -1,4 +1,4 @@
-import {axiosCall, setTokenHeader} from '../../services/api.js';
+import {axiosCall} from '../../services/api.js';
 import {SET_CURRENT_USER} from '../actionTypes';
 import {addError, removeError} from './errors';
 
@@ -9,15 +9,22 @@ export function setCurrentUser(user) {
     };
 }
 
-export function setAuthorizationToken(token) {
-    setTokenHeader(token);
-}
-
 export function logout() {
     return dispatch => {
-        localStorage.clear();
-        setAuthorizationToken(false);
-        dispatch(setCurrentUser({}));
+        return new Promise((resolve, reject) => {
+            return axiosCall("post", `/api/auth/logout`)
+            .then(
+                res => {
+                    localStorage.clear();
+                    dispatch(removeError());
+                    dispatch(setCurrentUser({}));
+                    resolve(); 
+                }
+            ).catch(err => {
+                dispatch(addError(err.message));
+                reject();
+            });
+        });
     }
 }
 
@@ -26,9 +33,8 @@ export function authUser(path, userData) {
         return new Promise((resolve, reject) => {
             return axiosCall("post", `/api/auth/${path}`, userData)
             .then(
-                ({token, ...user}) => {
-                    localStorage.setItem("jwtToken", token);
-                    setAuthorizationToken(token);
+                user => {
+                    localStorage.setItem("authenticated", true);
                     dispatch(removeError());
                     dispatch(setCurrentUser(user));
                     resolve(); 

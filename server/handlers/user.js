@@ -1,7 +1,6 @@
 const db = require("../models");
 
 exports.getUser = async function(req, res, next) {
-    console.log('getUser', req.params);
     try {
         let foundUser = await db.User.findById(req.params.id);     
         return res.status(200).json(foundUser);
@@ -22,15 +21,16 @@ exports.updateUser = async function(req, res, next) {
     }
 }
 
-exports.deleteUser = async function(req, res, next) {
-    console.log('deleteUser', req.params);
-    try {
-        let foundUser = await db.User.findById(req.params.id);     
-        return res.status(200).json(foundUser);
-    } catch(err) {
-        return next(err);
-    }
-}
+// todo
+// exports.deleteUser = async function(req, res, next) {
+//     console.log('deleteUser', req.params);
+//     try {
+//         let foundUser = await db.User.findById(req.params.id);     
+//         return res.status(200).json(foundUser);
+//     } catch(err) {
+//         return next(err);
+//     }
+// }
 
 
 

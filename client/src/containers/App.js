@@ -4,17 +4,25 @@ import {configureStore} from '../store';
 import {BrowserRouter as Router} from 'react-router-dom';
 import NavBar from './NavBar';
 import Main from './Main';
-import {setAuthorizationToken, setCurrentUser} from '../store/actions/auth';
-import jwtDecode from 'jwt-decode';
+import {authUser} from '../store/actions/auth';
+import {removeError} from '../store/actions/errors';
 
 const store = configureStore();
 
-if (localStorage.jwtToken) {
-  setAuthorizationToken(localStorage.jwtToken);
+// check session if user refreshes page
+// maybe there's a better way to do this...
+if (localStorage.authenticated && !store.getState().user) {
   try {
-    store.dispatch(setCurrentUser(jwtDecode(localStorage.jwtToken)));
+    store.dispatch(authUser("login", {}))
+    .catch(err => {
+      localStorage.clear();
+      // remove error display if session login
+      // so user doesn't get confused
+      store.dispatch(removeError()); 
+    });
   } catch(err) {
-    store.dispatch(setCurrentUser({}));
+    localStorage.clear();
+    store.dispatch(removeError());
   }
 }
 
